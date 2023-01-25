@@ -50,9 +50,12 @@ class LinearRegression:
             np.ndarray: The predicted output.
         """
         X = np.c_[np.ones(X.shape[0]), X]
+        w = [] #bs
+        x = w*X #bs
+        print(x) #bs
         y = X @ self.w
-        print('hello world XXXXXXXXX')
-        print(y.shape)
+        #print('hello world XXXXXXXXX')
+        #print(y.shape)
         return (X @ self.w)
 
 class GradientDescentLinearRegression(LinearRegression):
@@ -90,6 +93,7 @@ class GradientDescentLinearRegression(LinearRegression):
         
         N, D = X.shape
         X = np.hstack((np.ones((N,1)), X))
+        random_var = 0
         curr_w = None
 
         # Initializing the weights
