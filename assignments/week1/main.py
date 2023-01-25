@@ -47,6 +47,7 @@ def main():
 
     # Create a linear regression model:
     lr = LinearRegression()
+    print('done')
 
     # Fit the model to the training data:
     lr.fit(X_train, y_train)
@@ -59,3 +60,7 @@ def main():
 
     # Print the mean squared error:
     print("Mean squared error: {:.2f}".format(mse))
+
+
+if __name__ == "__main__":
+    main()
