@@ -30,7 +30,7 @@ class LinearRegression:
             None
         """
         # augument x by a column of ones (column wise concat)
-        # X = np.c_[np.ones(X.shape[0]), X]
+        X = np.c_[np.ones(X.shape[0]), X]
         self.w = np.linalg.inv(X.T @ X) @ (X.T @ y)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -44,7 +44,10 @@ class LinearRegression:
             np.ndarray: The predicted output.
         """
         # y = xw
-        # X = np.c_[np.ones(X.shape[0]), X]
+        X = np.c_[np.ones(X.shape[0]), X]
+        print(X.shape, "x shape with ones")
+        print(self.w)
+        print(self.b)
         return X @ self.w
 
 
@@ -105,6 +108,7 @@ class GradientDescentLinearRegression(LinearRegression):
         for e in range(self.epochs):
             # print(self.X.shape, 'x shape')
             # print(self.w.shape, 'w shape')
+
             preds = self.X.float() @ self.w.float()
             loss = self.mse(preds, self.y)
             loss.backward()
