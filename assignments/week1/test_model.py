@@ -11,6 +11,7 @@ import inspect
 import numpy as np
 from model import LinearRegression, GradientDescentLinearRegression
 import pytest
+import torch
 
 model_parametrize = pytest.mark.parametrize(
     "model", [LinearRegression, GradientDescentLinearRegression]
