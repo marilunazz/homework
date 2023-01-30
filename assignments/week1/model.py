@@ -45,9 +45,9 @@ class LinearRegression:
         """
         # y = xw
         X = np.c_[np.ones(X.shape[0]), X]
-        print(X.shape, "x shape with ones")
-        print(self.w)
-        print(self.b)
+        # print(X.shape, "x shape with ones")
+        # print(self.w)
+        # print(self.b)
         return X @ self.w
 
 
