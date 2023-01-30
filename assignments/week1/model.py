@@ -106,7 +106,7 @@ class GradientDescentLinearRegression(LinearRegression):
             # print(self.X.shape, 'x shape')
             # print(self.w.shape, 'w shape')
             preds = self.X.float() @ self.w.float()
-            loss = self.se(preds, self.y)
+            loss = self.mse(preds, self.y)
             loss.backward()
             self.w.data = self.w.data - self.lr * self.w.grad.data
             self.w.grad.data.zero_()
