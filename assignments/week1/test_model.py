@@ -73,6 +73,7 @@ def test_docstrings(model):
             class_.__doc__ is not None
         ), f"The class `{class_}` does not have a docstring."
 
+
 def test_epochs_improve_fit():
     """
     Test that GradientDescentLinearRegression improves with more epochs.
