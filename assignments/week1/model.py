@@ -53,9 +53,9 @@ class GradientDescentLinearRegression(LinearRegression):
     A linear regression model that uses gradient descent to fit the model.
     """
 
-    def se(self, preds: torch.tensor, targets: torch.tensor) -> torch.tensor:
+    def mse(self, preds: torch.tensor, targets: torch.tensor) -> torch.tensor:
         """
-        Computes the squared error
+        Computes the mean squared error
 
         Arguments:
         pred: torch tensor: predicted values
@@ -65,7 +65,7 @@ class GradientDescentLinearRegression(LinearRegression):
         torch.tensor
         """
         dif = preds - targets
-        return torch.sum(dif * dif)
+        return torch.sum(dif * dif) / torch.numel(dif)
 
     def fit(
         self, X: np.ndarray, y: np.ndarray, lr: float = 0.01, epochs: int = 1000
