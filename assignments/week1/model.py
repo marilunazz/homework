@@ -1,7 +1,6 @@
 import numpy as np
 import torch
 
-
 class LinearRegression:
     """
     A linear regression model that uses closed form solution to fit the model.
@@ -56,6 +55,13 @@ class GradientDescentLinearRegression(LinearRegression):
     def se(self, preds: torch.tensor, targets: torch.tensor) -> torch.tensor:
         """
         Computes the squared error
+
+        Arguments:
+        pred: torch tensor: predicted values
+        targets: torch tensor: target values
+
+        Returns:
+        torch.tensor
         """
         dif = preds - targets
         return torch.sum(dif * dif)
@@ -92,7 +98,6 @@ class GradientDescentLinearRegression(LinearRegression):
         # 1. compute dl/dw = -2x.T(Y-Xw)
         # clip if gradient is too large
         # 2. w' = w - lr*(dl/dw)
-
         # N, D = X.shape
         # self.X = np.hstack((np.ones((N, 1)), X))
 
@@ -104,7 +109,6 @@ class GradientDescentLinearRegression(LinearRegression):
             loss.backward()
             self.w.data = self.w.data - self.lr * self.w.grad.data
             self.w.grad.data.zero_()
-            # print(e, loss)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
