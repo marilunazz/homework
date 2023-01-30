@@ -1,7 +1,6 @@
 import numpy as np
 import torch
 
-
 class LinearRegression:
     """
     A linear regression model that uses closed form solution to fit the model.
@@ -93,7 +92,7 @@ class GradientDescentLinearRegression(LinearRegression):
         # clip if gradient is too large
         # 2. w' = w - lr*(dl/dw)
 
-        N, D = X.shape
+        # N, D = X.shape
         # self.X = np.hstack((np.ones((N, 1)), X))
 
         for e in range(self.epochs):
@@ -118,8 +117,6 @@ class GradientDescentLinearRegression(LinearRegression):
 
         """
         # N = X.shape[0]
-        # n
-        N = 0
         # X = np.hstack((np.ones((N, 1)), X))
         w = self.w.detach().numpy()
         return X @ w
