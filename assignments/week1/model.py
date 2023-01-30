@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 
+
 class LinearRegression:
     """
     A linear regression model that uses closed form solution to fit the model.
