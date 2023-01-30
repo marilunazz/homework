@@ -1,15 +1,18 @@
 import numpy as np
+import torch
+
 
 class LinearRegression:
     """
     A linear regression model that uses closed form solution to fit the model.
     """
+
     w: np.ndarray
     b: float
 
     def __init__(self):
-        self.w = None
         self.b = 0
+        self.w = None
         # w = [b, w]
         # x = [1, x]
         # y = xw
@@ -18,29 +21,20 @@ class LinearRegression:
         # w = (X.TX)^-1(X^TY) <-- closed form solution
 
     def fit(self, X: np.ndarray, y: np.ndarray) -> None:
-        """ Predict the output for the given input.
+        """Predict the output for the given input.
 
         Arguments:
             X (np.ndarray): The input data.
             y (np.ndarray): The y values.
         Returns:
-            None 
+            None
         """
         # augument x by a column of ones (column wise concat)
         # X = np.c_[np.ones(X.shape[0]), X]
-        # print('hello world XXXXXXXXX')
-        # print(X.T @ X)
-        # print('pinv')
-        # print(np.linalg.inv(X.T @ X))
-        # print('x.t @ y')
-        # print(X.T @ y)
-        # print('answer')
-        # print(np.linalg.inv(X.T @ X) @ (X.T @ y))
-                
         self.w = np.linalg.inv(X.T @ X) @ (X.T @ y)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        """ 
+        """
         Predict the output for the given input.
 
         Arguments:
@@ -49,81 +43,68 @@ class LinearRegression:
         Returns:
             np.ndarray: The predicted output.
         """
-        X = np.c_[np.ones(X.shape[0]), X]
-        w = [] #bs
-        x = w*X #bs
-        print(x) #bs
-        y = X @ self.w
-        #print('hello world XXXXXXXXX')
-        #print(y.shape)
-        return (X @ self.w)
+        # y = xw
+        # X = np.c_[np.ones(X.shape[0]), X]
+        return X @ self.w
+
 
 class GradientDescentLinearRegression(LinearRegression):
     """
     A linear regression model that uses gradient descent to fit the model.
     """
 
-    def compute_gradient(self, w, X, y):
-        N, D = X.shape
-        pred = np.dot(X, w)
-        loss = np.dot(pred - y, X)
-        loss = (2/N)*loss
-        dldw = -2* X.T
-    
-    def has_converged(self, old, new):
-        norm = np.sqrt(np.sum((new - old)**2))
+    def se(self, preds: torch.tensor, targets: torch.tensor) -> torch.tensor:
+        """
+        Computes the squared error
+        """
+        dif = preds - targets
+        return torch.sum(dif * dif)
 
-        if norm < self.tol:
-          return True
-      
-        return False
+    def fit(
+        self, X: np.ndarray, y: np.ndarray, lr: float = 0.01, epochs: int = 1000
+    ) -> None:
+        """
+        Fits the model using stochastic gradient descent.
 
+        Arguments:
+            X (np.ndarray): The input data.
+            Y (np.ndarray): The target data.
+            lr (float): The learning rate.
+            epochs (int): Epochs
 
-    def fit(self, X: np.ndarray, y: np.ndarray, lr: float = 0.01, epochs: int = 1000) -> None:
-        """ fit description """
-        self.X = X
-        self.y = y
+        Returns:
+            None.
+
+        """
+        self.X = torch.from_numpy(X.astype(float))
+        self.X.requires_grad_()
+        self.y = torch.from_numpy(y.astype(float))
+        self.y.requires_grad_()
         self.lr = lr
         self.epochs = epochs
-        self.w_new = None
+        if self.w is None:
+            self.w = torch.zeros(X.shape)
+        else:
+            self.w = torch.from_numpy(self.w)
+        self.w.requires_grad_()
+
         # OLS: loss = ||y-xw||^2
         # 1. compute dl/dw = -2x.T(Y-Xw)
         # clip if gradient is too large
         # 2. w' = w - lr*(dl/dw)
-        
-        N, D = X.shape
-        X = np.hstack((np.ones((N,1)), X))
-        random_var = 0
-        curr_w = None
 
-        # Initializing the weights
-        if self.w is None:
-            curr_w = np.zeros((D + 1,))
-        else:
-            curr_w = self.w
+        N, D = X.shape
+        # self.X = np.hstack((np.ones((N, 1)), X))
 
         for e in range(self.epochs):
-            # compute the gradient
-            print((-2 * X.T).shape)
-            print(curr_w, 'w shape')
-            print(self.y.shape, 'y shape')
-            print(((self.y - X) @ curr_w).shape)
-            grad = -2 * X.T @ ((self.y - X) @ curr_w)
-            print(grad, ' grad')
-            # clip if gradient is too large
-            grad = np.clip(grad, -1, 1)
-            print(grad, ' grad clipped')
-
-            # compute w' = w - lr*(dl/dw)
-            self.w_new = curr_w - self.lr * grad
-            print(self.w_new, 'self.w_new')
-
-            # check if it has converged
-            if self.has_converged(curr_w, self.w_new):
-                print('CONVERGED')
-                break
-
-            curr_w = self.w_new
+            # print(self.X.shape, 'x shape')
+            # print(self.w.shape, 'w shape')
+            preds = self.X.float() @ self.w.float()
+            loss = self.se(preds, self.y)
+            loss.backward()
+            self.w.data = self.w.data - self.lr * self.w.grad.data
+            self.w.grad.data.zero_()
+            # print(e, loss)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
@@ -137,9 +118,6 @@ class GradientDescentLinearRegression(LinearRegression):
 
         """
         N = X.shape[0]
-        X = np.hstack((np.ones((N, 1)), X))
-        return np.dot(X, self.w_new)
-        
-
-
-
+        # X = np.hstack((np.ones((N, 1)), X))
+        w = self.w.detach().numpy()
+        return X @ w

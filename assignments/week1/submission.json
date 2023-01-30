@@ -2,13 +2,17 @@
     "assignment_name": "Assignment 1",
     "contributors": [
         {
-            "name": "Jordan Matelsky",
-            "pennkey": "matelsky"
+            "name": "Mariana Luna",
+            "pennkey": "mlunaz"
+        },
+        {
+            "name": "Sam Duancey",
+            "pennkey": "sduancey"
         }
     ],
     "sources": [
         "https://example.com",
-        "Conversations with TA (include TA's name)",
+        "Conversations with TA Hainiu",
         "LLM (include information about the LLM and how it was used)"
     ]
 }

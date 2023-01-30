@@ -47,7 +47,6 @@ def main():
 
     # Create a linear regression model:
     lr = LinearRegression()
-    print('done')
 
     # Fit the model to the training data:
     lr.fit(X_train, y_train)
