@@ -59,13 +59,9 @@ class MLP(torch.nn.Module):
         Returns:
             The output of the network.
         """
-        # print(' input dim: ', self.input_size)
-        # print('hidden size: ', self.hidden_size)
-        # print('out: ', self.num_classes)
         x_tensor = torch.tensor(x)
         for layer in self.layers:
             l = layer(x_tensor)
-            # print(l.shape, ' l shape')
             x = self.activation(l)
         x = self.out(x)
         return x
