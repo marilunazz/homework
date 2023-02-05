@@ -61,7 +61,6 @@ class MLP(torch.nn.Module):
         """
         x_tensor = torch.tensor(x)
         for layer in self.layers:
-            l = layer(x_tensor)
-            x = self.activation(l)
+            x = self.activation(layer(x_tensor))
         x = self.out(x)
         return x
