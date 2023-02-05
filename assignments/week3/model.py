@@ -4,10 +4,14 @@ from typing import Callable
 
 
 class MLP(torch.nn.Module):
+    """
+    A multilinear perceptron model that uses pytorch to classify.
+    """
+
     def __init__(
         self,
         input_size: int,
-        hidden_size: int,
+        hidden_size: list,
         num_classes: int,
         hidden_count: int = 1,
         activation: Callable = torch.nn.ReLU,
@@ -31,11 +35,21 @@ class MLP(torch.nn.Module):
         self.initializer = initializer
         # self.activation = activation
         self.layers = nn.ModuleList()
-        self.layers += [nn.Linear(input_size, hidden_size)]
-        self.out = nn.Linear(hidden_size, num_classes)
         self.activation = nn.ReLU()
 
-    def forward(self, x):
+        num_inputs = self.input_size
+        next_num_inputs = 1
+        length = 1
+        if isinstance(self.hidden_size, list):
+            length = len(self.hidden_size)
+        for i in range(length):
+            if isinstance(self.hidden_size, list):
+                next_num_inputs = self.hidden_size[i]
+            self.layers += [nn.Linear(num_inputs, next_num_inputs)]
+            num_inputs = next_num_inputs
+        self.out = nn.Linear(num_inputs, num_classes)
+
+    def forward(self, x: torch.tensor) -> torch.tensor:
         """
         Forward pass of the network.
 
