@@ -1,14 +1,9 @@
 {
     "assignment_name": "MLP",
-    "contributors": [
-        {
-            "name": "Mariana Luna",
-            "pennkey": "mlunaz"
-        }
-    ],
+    "contributors": [{"name": "Mariana Luna", "pennkey": "mlunaz"}],
     "sources": [
         "https://example.com",
         "Conversations with TA (include TA's name)",
-        "LLM (include information about the LLM and how it was used)"
-    ]
+        "LLM (include information about the LLM and how it was used)",
+    ],
 }

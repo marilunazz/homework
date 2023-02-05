@@ -29,9 +29,9 @@ class MLP(torch.nn.Module):
         self.num_classes = num_classes
         self.hidden_count = hidden_count
         self.initializer = initializer
-        #self.activation = activation
+        # self.activation = activation
         self.layers = nn.ModuleList()
-        self.layers += [nn.Linear(input_size, hidden_size)]  
+        self.layers += [nn.Linear(input_size, hidden_size)]
         self.out = nn.Linear(hidden_size, num_classes)
         self.activation = nn.ReLU()
 
