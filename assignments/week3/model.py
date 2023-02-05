@@ -33,10 +33,10 @@ class MLP(torch.nn.Module):
         self.num_classes = num_classes
         self.hidden_count = hidden_count
         self.initializer = initializer
-        # self.activation = activation
         self.layers = nn.ModuleList()
         self.activation = nn.ReLU()
 
+        # adding list functionality to make it more than one hidden layer
         num_inputs = self.input_size
         next_num_inputs = 1
         length = 1
