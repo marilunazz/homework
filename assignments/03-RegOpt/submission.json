@@ -1,5 +1,13 @@
 {
     "assignment_name": "RegOpt",
-    "contributors": [{"name": "Mariana Luna", "pennkey": "mlunaz"}],
-    "sources": ["Don't forget to list your sources/attribution here!"],
+    "contributors": [
+        {
+            "name": "Mariana Luna", 
+            "pennkey": "mlunaz"
+        }
+    ],
+    "sources": [
+        "https://www.d2l.ai/chapter_optimization/lr-scheduler.html",
+        "Conversations with TA Hainiu"
+    ]
 }
