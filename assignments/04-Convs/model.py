@@ -13,12 +13,12 @@ class Model(torch.nn.Module):
         self.num_channels = num_channels
         self.num_classes = num_classes
 
-        self.conv1 = nn.Conv2d(num_channels, 6, 5)
+        self.conv1 = nn.Conv2d(num_channels, 12, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(1176, 84)  # used to be 16*5*5, 120
+        self.fc1 = nn.Linear(2352, 120)  # used to be 16*5*5, 120
         self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, self.num_classes)
+        self.fc3 = nn.Linear(120, self.num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
