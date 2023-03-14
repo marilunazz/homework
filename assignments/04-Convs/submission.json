@@ -1,5 +1,11 @@
 {
     "assignment_name": "Convolutions",
-    "contributors": [{"name": "Mariana Luna", "pennkey": "mlunaz"}],
-    "sources": ["Don't forget to list your sources/attribution here!"],
+    "contributors": [
+        {
+            "name": "Mariana Luna ",
+            "pennkey": "mlunaz"
+        }
+    ],
+    "sources": [
+    ]
 }
